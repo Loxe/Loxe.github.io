@@ -1,0 +1,815 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS越狱开发," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="简介这一系列的文章是用来记录 我从学习越狱开发以来的记录。当然如果你不会iOS开发的话建议先学习iOS开发，虽然我不是大神，我处于做笔记的目的，自然也是分享一下我的经验。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS越狱开发：环境部署">
+<meta property="og:url" content="http://iloxe.com/2016/08/22/15/index.html">
+<meta property="og:site_name" content="小饼's Blog">
+<meta property="og:description" content="简介这一系列的文章是用来记录 我从学习越狱开发以来的记录。当然如果你不会iOS开发的话建议先学习iOS开发，虽然我不是大神，我处于做笔记的目的，自然也是分享一下我的经验。">
+<meta property="og:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2016/03/2537568018.png">
+<meta property="og:updated_time" content="2016-09-08T04:05:28.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS越狱开发：环境部署">
+<meta name="twitter:description" content="简介这一系列的文章是用来记录 我从学习越狱开发以来的记录。当然如果你不会iOS开发的话建议先学习iOS开发，虽然我不是大神，我处于做笔记的目的，自然也是分享一下我的经验。">
+<meta name="twitter:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2016/03/2537568018.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6321524076691064000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://iloxe.com/2016/08/22/15/"/>
+
+  <title> iOS越狱开发：环境部署 | 小饼's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?989980c62f433005169e134deea68b20";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小饼's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'PYuHnKBzPBMVZffYyof4','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS越狱开发：环境部署
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T14:45:11+00:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/22/15/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/15/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/22/15/" class="leancloud_visitors" data-flag-title="iOS越狱开发：环境部署">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>这一系列的文章是用来记录 我从学习越狱开发以来的记录。当然如果你不会iOS开发的话建议先学习iOS开发，虽然我不是大神，我处于做笔记的目的，自然也是分享一下我的经验。<br><a id="more"></a> </p>
+<h1 id="进入正题"><a href="#进入正题" class="headerlink" title="进入正题"></a>进入正题</h1><p>越狱开发的话你至少需要一台 已经越狱的iPhone。<br>然后我们的环境需要Xcode<br>接下来是越狱开发的一些框架 theos，iOSOpenDev(这个不是必须的)</p>
+<h1 id="那么怎么安装呢"><a href="#那么怎么安装呢" class="headerlink" title="那么怎么安装呢"></a>那么怎么安装呢</h1><h3 id="首先我们要先安装Xcode"><a href="#首先我们要先安装Xcode" class="headerlink" title="首先我们要先安装Xcode"></a>首先我们要先安装Xcode</h3><p>去苹果官网下载就好了 并且安装里面的Commond Tool 这个就不必我教啦~</p>
+<h3 id="然后我们需要安装Theos-转：http-www-iduuke-com-special-2017-html"><a href="#然后我们需要安装Theos-转：http-www-iduuke-com-special-2017-html" class="headerlink" title="然后我们需要安装Theos (转：http://www.iduuke.com/special/2017.html)"></a>然后我们需要安装Theos (转：<a href="http://www.iduuke.com/special/2017.html" target="_blank" rel="external">http://www.iduuke.com/special/2017.html</a>)</h3><h4 id="【一】打开-Terminal，先设置环境变量（为了以后输入方便，非必须），命令如下（其中-opt-theos-为将要安装theos的路径，可自行更改）"><a href="#【一】打开-Terminal，先设置环境变量（为了以后输入方便，非必须），命令如下（其中-opt-theos-为将要安装theos的路径，可自行更改）" class="headerlink" title="【一】打开 Terminal，先设置环境变量（为了以后输入方便，非必须），命令如下（其中 /opt/theos 为将要安装theos的路径，可自行更改）"></a>【一】打开 Terminal，先设置环境变量（为了以后输入方便，非必须），命令如下（其中 /opt/theos 为将要安装theos的路径，可自行更改）</h4><p>export THEOS=/opt/theos</p>
+<h4 id="【二】下载-TheOS（因权限问题要加入-sudo）："><a href="#【二】下载-TheOS（因权限问题要加入-sudo）：" class="headerlink" title="【二】下载 TheOS（因权限问题要加入 sudo）："></a>【二】下载 TheOS（因权限问题要加入 sudo）：</h4><p>sudo git clone git://github.com/DHowett/theos.git $THEOS</p>
+<p>如果喜欢使用 svn：</p>
+<p>sudo svn co <a href="http://svn.howett.net/svn/theos/trunk" target="_blank" rel="external">http://svn.howett.net/svn/theos/trunk</a> $THEOS</p>
+<h4 id="【三】下载-ldid（因为墙的原因，可能需要自备翻墙）："><a href="#【三】下载-ldid（因为墙的原因，可能需要自备翻墙）：" class="headerlink" title="【三】下载 ldid（因为墙的原因，可能需要自备翻墙）："></a>【三】下载 ldid（因为墙的原因，可能需要自备翻墙）：</h4><p>sudo curl -s <a href="http://dl.dropbox.com/u/3157793/ldid" target="_blank" rel="external">http://dl.dropbox.com/u/3157793/ldid</a> &gt; /tmp/ldid<br>sudo cp /tmp/ldid $THEOS/bin/<br>sudo chmod +x $THEOS/bin/ldid rm /tmp/ldid</p>
+<h5 id="这里可能会下不动-所以我就直接提供一个ldid给你们下载吧"><a href="#这里可能会下不动-所以我就直接提供一个ldid给你们下载吧" class="headerlink" title="这里可能会下不动 所以我就直接提供一个ldid给你们下载吧"></a>这里可能会下不动 所以我就直接提供一个ldid给你们下载吧</h5><h4 id="【四】添加设备的-IP-地址-（XXX为设备的上的-IP-地址）："><a href="#【四】添加设备的-IP-地址-（XXX为设备的上的-IP-地址）：" class="headerlink" title="【四】添加设备的 IP 地址 （XXX为设备的上的 IP 地址）："></a>【四】添加设备的 IP 地址 （XXX为设备的上的 IP 地址）：</h4><p>export THEOS_DEVICE_IP=XXX THEOS_DEVICE_PORT=22 （这个设备IP可以不设置也没关系 ）</p>
+<h4 id="【五】Theos安装完毕了。"><a href="#【五】Theos安装完毕了。" class="headerlink" title="【五】Theos安装完毕了。"></a>【五】Theos安装完毕了。</h4><h4 id="如果你只用Theos开发当然到这里你就可以开发了，若是想用Xcode模板啥的那么就继续看下去吧"><a href="#如果你只用Theos开发当然到这里你就可以开发了，若是想用Xcode模板啥的那么就继续看下去吧" class="headerlink" title="如果你只用Theos开发当然到这里你就可以开发了，若是想用Xcode模板啥的那么就继续看下去吧"></a>如果你只用Theos开发当然到这里你就可以开发了，若是想用Xcode模板啥的那么就继续看下去吧</h4><h3 id="安装Xcode中的模板iOSOpenDev"><a href="#安装Xcode中的模板iOSOpenDev" class="headerlink" title="安装Xcode中的模板iOSOpenDev"></a>安装Xcode中的模板iOSOpenDev</h3><h5 id="【一】首先安装MacPorts"><a href="#【一】首先安装MacPorts" class="headerlink" title="【一】首先安装MacPorts"></a>【一】首先安装MacPorts</h5><p>下载地址：可以选择<a href="http://www.macports.org/install.php" target="_blank" rel="external">官网</a>  或者 <a href="http://pan.baidu.com/s/1hrsPikO" target="_blank" rel="external">我的百度盘</a> 密码: nrwt</p>
+<h5 id="【二】安装iOSOpenDev"><a href="#【二】安装iOSOpenDev" class="headerlink" title="【二】安装iOSOpenDev"></a>【二】安装iOSOpenDev</h5><p>下载地址：可以选择<a href="http://pan.baidu.com/s/1hrsPikO" target="_blank" rel="external">官网</a>  或者 <a href="http://pan.baidu.com/s/1hrsPikO" target="_blank" rel="external">我的百度盘</a> 密码: nrwt</p>
+<p><a href="http://www.iduuke.com/1938.html" target="_blank" rel="external">iOSOpenDev 安装失败的解决方案</a></p>
+<p>PS:这里有一些奇怪的错误 比如我是找不到iosod啥的 替身有问题你可以找到/opt/iOSOpenDev/bin 里面制作替身然后放回错误的目录</p>
+<h5 id="【三】安装完成，接下来可以在Xcode中创建你的新项目了。"><a href="#【三】安装完成，接下来可以在Xcode中创建你的新项目了。" class="headerlink" title="【三】安装完成，接下来可以在Xcode中创建你的新项目了。"></a>【三】安装完成，接下来可以在Xcode中创建你的新项目了。</h5><p>你就可以看到下面这些东西了<br><img src="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2016/03/2537568018.png" alt="D539C855-7F09-4A5A-B549-6D2C5F0705C3.png"></p>
+<p><a href="http://pan.baidu.com/s/1hrsPikO" target="_blank" rel="external">3</a>: </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS越狱开发/" rel="tag">#iOS越狱开发</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/22/16/" rel="next" title="【iOS技术】APP的签名和重打包的学习">
+                <i class="fa fa-chevron-left"></i> 【iOS技术】APP的签名和重打包的学习
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/22/17/" rel="prev" title="iOS 模拟器合集 免越狱">
+                iOS 模拟器合集 免越狱 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/22/15/"
+           data-title="iOS越狱开发：环境部署" data-url="http://iloxe.com/2016/08/22/15/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://loxe-gravatar.qiniudn.com/avatar/55a42346198de4bb76f606b9bf4e66c2"
+               alt="小饼" />
+          <p class="site-author-name" itemprop="name">小饼</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Loxe" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2272928710" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lvhuan.me/" title="菖蒲" target="_blank">菖蒲</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hijimo.com/" title="寂寞家" target="_blank">寂寞家</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进入正题"><span class="nav-number">2.</span> <span class="nav-text">进入正题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#那么怎么安装呢"><span class="nav-number">3.</span> <span class="nav-text">那么怎么安装呢</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#首先我们要先安装Xcode"><span class="nav-number">3.0.1.</span> <span class="nav-text">首先我们要先安装Xcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#然后我们需要安装Theos-转：http-www-iduuke-com-special-2017-html"><span class="nav-number">3.0.2.</span> <span class="nav-text">然后我们需要安装Theos (转：http://www.iduuke.com/special/2017.html)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#【一】打开-Terminal，先设置环境变量（为了以后输入方便，非必须），命令如下（其中-opt-theos-为将要安装theos的路径，可自行更改）"><span class="nav-number">3.0.2.1.</span> <span class="nav-text">【一】打开 Terminal，先设置环境变量（为了以后输入方便，非必须），命令如下（其中 /opt/theos 为将要安装theos的路径，可自行更改）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#【二】下载-TheOS（因权限问题要加入-sudo）："><span class="nav-number">3.0.2.2.</span> <span class="nav-text">【二】下载 TheOS（因权限问题要加入 sudo）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#【三】下载-ldid（因为墙的原因，可能需要自备翻墙）："><span class="nav-number">3.0.2.3.</span> <span class="nav-text">【三】下载 ldid（因为墙的原因，可能需要自备翻墙）：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这里可能会下不动-所以我就直接提供一个ldid给你们下载吧"><span class="nav-number">3.0.2.3.1.</span> <span class="nav-text">这里可能会下不动 所以我就直接提供一个ldid给你们下载吧</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#【四】添加设备的-IP-地址-（XXX为设备的上的-IP-地址）："><span class="nav-number">3.0.2.4.</span> <span class="nav-text">【四】添加设备的 IP 地址 （XXX为设备的上的 IP 地址）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#【五】Theos安装完毕了。"><span class="nav-number">3.0.2.5.</span> <span class="nav-text">【五】Theos安装完毕了。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果你只用Theos开发当然到这里你就可以开发了，若是想用Xcode模板啥的那么就继续看下去吧"><span class="nav-number">3.0.2.6.</span> <span class="nav-text">如果你只用Theos开发当然到这里你就可以开发了，若是想用Xcode模板啥的那么就继续看下去吧</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Xcode中的模板iOSOpenDev"><span class="nav-number">3.0.3.</span> <span class="nav-text">安装Xcode中的模板iOSOpenDev</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#【一】首先安装MacPorts"><span class="nav-number">3.0.3.0.1.</span> <span class="nav-text">【一】首先安装MacPorts</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#【二】安装iOSOpenDev"><span class="nav-number">3.0.3.0.2.</span> <span class="nav-text">【二】安装iOSOpenDev</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#【三】安装完成，接下来可以在Xcode中创建你的新项目了。"><span class="nav-number">3.0.3.0.3.</span> <span class="nav-text">【三】安装完成，接下来可以在Xcode中创建你的新项目了。</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小饼</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Loxe"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("kIIO80X8ngRciqBlih78FI6g-gzGzoHsz", "7Hnsei817eL3UF29vPDOSknK");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

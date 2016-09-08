@@ -1,0 +1,862 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="先上效果图我的项目在iOS6中的效果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS开发技术】原生Navigtaion和Tab 的定制与修改">
+<meta property="og:url" content="http://iloxe.com/2016/08/22/7/index.html">
+<meta property="og:site_name" content="小饼's Blog">
+<meta property="og:description" content="先上效果图我的项目在iOS6中的效果">
+<meta property="og:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/04/1779659115.png">
+<meta property="og:updated_time" content="2016-09-08T04:05:28.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【iOS开发技术】原生Navigtaion和Tab 的定制与修改">
+<meta name="twitter:description" content="先上效果图我的项目在iOS6中的效果">
+<meta name="twitter:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/04/1779659115.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6321524076691064000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://iloxe.com/2016/08/22/7/"/>
+
+  <title> 【iOS开发技术】原生Navigtaion和Tab 的定制与修改 | 小饼's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?989980c62f433005169e134deea68b20";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小饼's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'PYuHnKBzPBMVZffYyof4','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【iOS开发技术】原生Navigtaion和Tab 的定制与修改
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T14:38:45+00:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/22/7/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/7/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/22/7/" class="leancloud_visitors" data-flag-title="【iOS开发技术】原生Navigtaion和Tab 的定制与修改">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>先上效果图我的项目在iOS6中的效果<br><img src="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/04/1779659115.png" alt="111.png"></p>
+<a id="more"></a>
+<h1 id="状态栏篇"><a href="#状态栏篇" class="headerlink" title="状态栏篇"></a>状态栏篇</h1><ul>
+<li>(UIStatusBarStyle)preferredStatusBarStyle<br>{<br>return UIStatusBarStyleLightContent;<br>}</li>
+</ul>
+<p>PS:nagigationBar的Style不是Default的适合才会调用</p>
+<p>[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];</p>
+<p>可以在VC里面加入这段代码修改状态栏的样式 状态栏只有 暗色和亮色两种</p>
+<h3 id="当然可以用简便的方法"><a href="#当然可以用简便的方法" class="headerlink" title="当然可以用简便的方法"></a>当然可以用简便的方法</h3><p>[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];</p>
+<p>但是你一定要记得在info.plist中加入View controller-based status bar appearance = NO</p>
+<h3 id="如果你想要隐藏状态栏"><a href="#如果你想要隐藏状态栏" class="headerlink" title="如果你想要隐藏状态栏"></a>如果你想要隐藏状态栏</h3><ul>
+<li>(UIStatusBarStyle)preferredStatusBarStyle<br>{<br>return UIStatusBarStyleLightContent;<br>}<br>PS：此法的只有在设置了以下代码才会被调用（对于preferredStatusBarStyle不执行问题）：<br>[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];</li>
+</ul>
+<h1 id="Navigtaion修改篇"><a href="#Navigtaion修改篇" class="headerlink" title="Navigtaion修改篇"></a>Navigtaion修改篇</h1><h2 id="iOS6的Navigtaion上面有高光，并且字是白色的，所以我们需要将iOS6的Navigtaion的背景修改一下"><a href="#iOS6的Navigtaion上面有高光，并且字是白色的，所以我们需要将iOS6的Navigtaion的背景修改一下" class="headerlink" title="iOS6的Navigtaion上面有高光，并且字是白色的，所以我们需要将iOS6的Navigtaion的背景修改一下"></a>iOS6的Navigtaion上面有高光，并且字是白色的，所以我们需要将iOS6的Navigtaion的背景修改一下</h2><h4 id="PS-UINavigtaionBar-apperance-是获取全局的Navigtaion实例"><a href="#PS-UINavigtaionBar-apperance-是获取全局的Navigtaion实例" class="headerlink" title="PS:[UINavigtaionBar apperance] 是获取全局的Navigtaion实例"></a>PS:[UINavigtaionBar apperance] 是获取全局的Navigtaion实例</h4><h3 id="修改NavigtaionBar的主色调"><a href="#修改NavigtaionBar的主色调" class="headerlink" title="修改NavigtaionBar的主色调"></a>修改NavigtaionBar的主色调</h3><p>/<em>这里设置颜色是为了Navigtaion上面的颜色ButtonItem的颜色可以和Navigtaion的主色调更接近</em>/<br>[[UINavigationBar appearance] setTintColor:color];</p>
+<h3 id="修改NavigtaionBar背景图片"><a href="#修改NavigtaionBar背景图片" class="headerlink" title="修改NavigtaionBar背景图片"></a>修改NavigtaionBar背景图片</h3><p>/<em>这里我有个自己的方法，我讲blankImage 着色成我要的颜色，blankImage其实就是一个白色的小方块，我把它改编成我要的颜色，然后作为Navigtaion的背景图</em>/<br>[[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@”blankImage”] imageWithTintColor:color ] forBarMetrics:UIBarMetricsDefault];</p>
+<h3 id="修改NavigtaionBar的字体"><a href="#修改NavigtaionBar的字体" class="headerlink" title="修改NavigtaionBar的字体"></a>修改NavigtaionBar的字体</h3><p>/<em>这个比较特殊，这里我加入了几个属性应该一下就可以看懂 一个是修改标题的颜色 ，一个是字体大小。当然还有其他属性可以自行翻阅API</em>/<br>[[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor blackColor], UITextAttributeTextColor,[UIFont systemFontOfSize:17.0f],UITextAttributeFont, nil]];</p>
+<h4 id="其他技巧-–2015-4-13更新-摘抄自网络"><a href="#其他技巧-–2015-4-13更新-摘抄自网络" class="headerlink" title="其他技巧 –2015/4/13更新 摘抄自网络"></a>其他技巧 –2015/4/13更新 摘抄自网络</h4><ul>
+<li>一</li>
+</ul>
+<p>[[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault]; //加上这个后会将返回按钮上得文字向Y轴偏移-60 所以文字就看不见了</p>
+<ul>
+<li>二</li>
+</ul>
+<p>if (IOS7_OR_LATER) {<br>UIBarButtonItem <em>returnButtonItem = [[UIBarButtonItem alloc] init];<br>returnButtonItem.title = @”返回”;<br>self.navigationItem.backBarButtonItem = returnButtonItem;<br>}<br>else<br>{<br>// 设置返回按钮的文本<br>UIBarButtonItem </em>backButton = [[UIBarButtonItem alloc]<br>initWithTitle:@”返回”<br>style:UIBarButtonItemStylePlain target:nil action:nil];<br>[self.navigationItem setBackBarButtonItem:backButton];  </p>
+<p>// 设置返回按钮的背景图片<br>UIImage <em>img = [UIImage imageNamed:@”ic_back_nor”];<br>img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(0, 18, 0, 0)];<br>[[UIBarButtonItem appearance] setBackButtonBackgroundImage:img forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];<br>// 设置文本与图片的偏移量<br>[[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(5, 0)  forBarMetrics:UIBarMetricsDefault];<br>// 设置文本的属性<br>NSDictionary </em>attributes = @{UITextAttributeFont:[UIFont systemFontOfSize:16],UITextAttributeTextShadowOffset:[NSValue valueWithUIOffset:UIOffsetZero]};<br>[[UIBarButtonItem appearance] setTitleTextAttributes:attributes forState:UIControlStateNormal];<br>}  </p>
+<p>到这里NavigtaionBar修改的有点像iOS7的了</p>
+<h1 id="Tabbar修改篇"><a href="#Tabbar修改篇" class="headerlink" title="Tabbar修改篇"></a>Tabbar修改篇</h1><h2 id="iOS6的Tabbar的样式和iOS7的相差很大。主要是图标选中样式，图标的高光，Tabbar的选中图片"><a href="#iOS6的Tabbar的样式和iOS7的相差很大。主要是图标选中样式，图标的高光，Tabbar的选中图片" class="headerlink" title="iOS6的Tabbar的样式和iOS7的相差很大。主要是图标选中样式，图标的高光，Tabbar的选中图片"></a>iOS6的Tabbar的样式和iOS7的相差很大。主要是图标选中样式，图标的高光，Tabbar的选中图片</h2><p>下面看代码</p>
+<h3 id="修改选中的时候Tabbar的那个白色框"><a href="#修改选中的时候Tabbar的那个白色框" class="headerlink" title="修改选中的时候Tabbar的那个白色框"></a>修改选中的时候Tabbar的那个白色框</h3><p>/<em>这里我找到当前的tabBar 然后设置他的选中的时候图片为透明，酱紫选中也不会有白色的框了</em>/<br>[mainTabs.tabBar setSelectionIndicatorImage:[[UIImage imageNamed:@”blankImage”] imageWithTintColor:[UIColor clearColor]]];</p>
+<h3 id="修改Tabbar的背景图"><a href="#修改Tabbar的背景图" class="headerlink" title="修改Tabbar的背景图"></a>修改Tabbar的背景图</h3><p>/<em>然后设置背景图，颜色就是iOS7tabbar默认的那种白色 #21262d</em>/<br>[mainTabs.tabBar setBackgroundImage:[[[UIImage imageNamed:@”blankImage”] imageWithTintColor:[Util GetColorWithHexString:@”#21262d”]] stretchableImageWithLeftCapWidth:10 topCapHeight:10]];</p>
+<h3 id="修改TabBarItem未选中的文字的颜色"><a href="#修改TabBarItem未选中的文字的颜色" class="headerlink" title="修改TabBarItem未选中的文字的颜色"></a>修改TabBarItem未选中的文字的颜色</h3><p>[items.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [Util GetColorWithHexString:@”#929292”], UITextAttributeTextColor,[UIFont boldSystemFontOfSize:11.f],UITextAttributeFont, nil] forState:UIControlStateNormal];</p>
+<h3 id="修改TabBarItem未选中的图标的颜色"><a href="#修改TabBarItem未选中的图标的颜色" class="headerlink" title="修改TabBarItem未选中的图标的颜色"></a>修改TabBarItem未选中的图标的颜色</h3><p>[items.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[Global GetDarkMainColor], UITextAttributeTextColor,[UIFont boldSystemFontOfSize:11.f],UITextAttributeFont, nil] forState:UIControlStateSelected];</p>
+<h3 id="修改TabBarItem的选中和未选中状态的图片"><a href="#修改TabBarItem的选中和未选中状态的图片" class="headerlink" title="修改TabBarItem的选中和未选中状态的图片"></a>修改TabBarItem的选中和未选中状态的图片</h3><h4 id="PS：这里我将图片的颜色修改成了我自己要的颜色"><a href="#PS：这里我将图片的颜色修改成了我自己要的颜色" class="headerlink" title="PS：这里我将图片的颜色修改成了我自己要的颜色"></a>PS：这里我将图片的颜色修改成了我自己要的颜色</h4><p>UIImage <em>selectedImage   = [[UIImage imageNamed:tabImgArr[i]] imageWithTintColor:[Global GetDarkMainColor]];<br>UIImage </em>unselectedImage = [[UIImage imageNamed:tabImgArr[i]] imageWithTintColor:[Util GetColorWithHexString:@”#929292”]];<br>[items.tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:unselectedImage];</p>
+<h1 id="ToolBar修改篇"><a href="#ToolBar修改篇" class="headerlink" title="ToolBar修改篇"></a>ToolBar修改篇</h1><h3 id="修改ToolBar的背景图片"><a href="#修改ToolBar的背景图片" class="headerlink" title="修改ToolBar的背景图片"></a>修改ToolBar的背景图片</h3><p>[[UIToolbar appearance] setBackgroundImage:[[UIImage imageNamed:@”blankImage”] imageWithTintColor:color ] forToolbarPosition:0 barMetrics:0];</p>
+<h1 id="NavigationBar-ButtonItem修改篇"><a href="#NavigationBar-ButtonItem修改篇" class="headerlink" title="NavigationBar ButtonItem修改篇"></a>NavigationBar ButtonItem修改篇</h1><h4 id="PS：我们修改了NavigationBar之后发现按钮还是原来的样子略丑"><a href="#PS：我们修改了NavigationBar之后发现按钮还是原来的样子略丑" class="headerlink" title="PS：我们修改了NavigationBar之后发现按钮还是原来的样子略丑"></a>PS：我们修改了NavigationBar之后发现按钮还是原来的样子略丑</h4><p>我刚开始对于这个也纠结了很久，最后我还是想了个这种的方案，不使用原来的按钮了，我自定义一下。<br>可以参照我的代码：</p>
+<h4 id="我封装了3个方法-，大家可以按照自己的需要去封装"><a href="#我封装了3个方法-，大家可以按照自己的需要去封装" class="headerlink" title="我封装了3个方法 ，大家可以按照自己的需要去封装"></a>我封装了3个方法 ，大家可以按照自己的需要去封装</h4><p>/**</p>
+<ul>
+<li>利用个一个UIButton对象生成一个UIBarButtonItem</li>
+<li>@param rect 这个按钮的大小</li>
+<li>@param btn  要放到这个UIBarButtonItem里面的UIButton</li>
+<li>@return 一个UIBarButtonItem对象<br><em>/<br>+(UIBarButtonItem</em>)getNavBarButtonItem:(CGRect)rect Btn:(UIButton<em>)btn;<br>/*</em></li>
+<li>通过 title、执行的SEL、选中颜色、未选中颜色生成一个UIBarButtonItem</li>
+<li>@param title       UIBarButtonItem显示的ttitle文字</li>
+<li>@param target      调用的目标 可以为nil</li>
+<li>@param sel         执行事件</li>
+<li>@param selectColor 选中颜色</li>
+<li>@param normalColor 未选中颜色<br>*</li>
+<li>@return 一个UIBarButtonItem对象<br><em>/<br>+(UIBarButtonItem</em>)getNavBarButtonItemWithTitle:(NSString <em>)title Target:(id)target Selector:(SEL)sel SelectColor:(UIColor </em>)selectColor NormalColor:(UIColor*)normalColor;</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>通过 img、执行的SEL、选中颜色、未选中颜色生成一个UIBarButtonItem</li>
+<li>@param img         图片</li>
+<li>@param target      执行sel的目标类</li>
+<li>@param sel         需要执行的方法</li>
+<li>@param selectColor 选中颜色，默认是IOS7的蓝色</li>
+<li>@param normalColor 普通状态下颜色 默认是白色</li>
+<li>@param leftOrRight 该参数只有在IOS7中起效 @”left” @”right”<br>*</li>
+<li>@return 返回一个UIBarButtonItem按钮<br><em>/<br>+(UIBarButtonItem</em>)getNavBarButtonItemWithImage:(UIImage <em>)img Target:(id)target Selector:(SEL)sel SelectColor:(UIColor </em>)selectColor NormalColor:(UIColor*)normalColor;</li>
+</ul>
+<h4 id="接下来看下实现"><a href="#接下来看下实现" class="headerlink" title="接下来看下实现"></a>接下来看下实现</h4><p>+(UIBarButtonItem<em>)getNavBarButtonItem:(CGRect)rect Btn:(UIButton</em>)btn<br>{<br>UIView <em> v= [[UIView alloc]initWithFrame:rect];<br>[v addSubview:btn];<br>UIBarButtonItem </em>btnItem=[[UIBarButtonItem alloc]initWithCustomView:btn];<br>return btnItem;<br>}<br>+(UIBarButtonItem<em>)getNavBarButtonItemWithImage:(UIImage </em>)img Target:(id)target Selector:(SEL)sel SelectColor:(UIColor <em>)selectColor NormalColor:(UIColor</em>)normalColor<br>{<br>UIButton * btn ;<br>if(selectColor==nil)<br>selectColor=[Global getIOS7TextColor];<br>if(normalColor==nil)<br>normalColor=[UIColor whiteColor];<br>btn= [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)]; </p>
+<p>[btn setBackgroundImage:[img imageWithTintColor:normalColor] forState:UIControlStateNormal];<br>[btn setBackgroundImage:[img imageWithTintColor:selectColor] forState:UIControlStateHighlighted];<br>[btn addTarget:target action:sel forControlEvents:UIControlEventTouchDown];<br>return  [self getNavBarButtonItem:CGRectMake(0, 0, 45, 45) Btn:btn];<br>}<br>+(UIBarButtonItem<em>)getNavBarButtonItemWithTitle:(NSString </em>)title Target:(id)target Selector:(SEL)sel SelectColor:(UIColor <em>)selectColor NormalColor:(UIColor</em>)normalColor<br>{<br>if(selectColor==nil)<br>selectColor=[Global getIOS7TextColor];<br>if(normalColor==nil)<br>normalColor=[UIColor whiteColor];</p>
+<p>if(ISIOS7)<br>{<br>UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 5, 50, 35)];<br>[btn setTitle:title  forState:UIControlStateNormal];<br>[btn setTitle:title forState:UIControlStateHighlighted];<br>[btn setTitleColor:normalColor forState:UIControlStateNormal];<br>[btn setTitleColor:selectColor forState:UIControlStateHighlighted];<br>[btn addTarget:target action:sel forControlEvents:UIControlEventTouchDown];<br>return  [self getNavBarButtonItem:CGRectMake(0, 0, 50, 45) Btn:btn];<br>}<br>else<br>{<br>return [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:target action:sel];<br>}<br>}</p>
+<h2 id="XD-大家可以选择自己写这几个类，我这里只是给大家做参考的"><a href="#XD-大家可以选择自己写这几个类，我这里只是给大家做参考的" class="headerlink" title="XD 大家可以选择自己写这几个类，我这里只是给大家做参考的"></a>XD 大家可以选择自己写这几个类，我这里只是给大家做参考的</h2>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/22/5/" rel="next" title="【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa">
+                <i class="fa fa-chevron-left"></i> 【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/22/8/" rel="prev" title="【iOS开发技术】Block的使用（二）">
+                【iOS开发技术】Block的使用（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/22/7/"
+           data-title="【iOS开发技术】原生Navigtaion和Tab 的定制与修改" data-url="http://iloxe.com/2016/08/22/7/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://loxe-gravatar.qiniudn.com/avatar/55a42346198de4bb76f606b9bf4e66c2"
+               alt="小饼" />
+          <p class="site-author-name" itemprop="name">小饼</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Loxe" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2272928710" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lvhuan.me/" title="菖蒲" target="_blank">菖蒲</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hijimo.com/" title="寂寞家" target="_blank">寂寞家</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#状态栏篇"><span class="nav-number">1.</span> <span class="nav-text">状态栏篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#当然可以用简便的方法"><span class="nav-number">1.0.1.</span> <span class="nav-text">当然可以用简便的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果你想要隐藏状态栏"><span class="nav-number">1.0.2.</span> <span class="nav-text">如果你想要隐藏状态栏</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Navigtaion修改篇"><span class="nav-number">2.</span> <span class="nav-text">Navigtaion修改篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS6的Navigtaion上面有高光，并且字是白色的，所以我们需要将iOS6的Navigtaion的背景修改一下"><span class="nav-number">2.1.</span> <span class="nav-text">iOS6的Navigtaion上面有高光，并且字是白色的，所以我们需要将iOS6的Navigtaion的背景修改一下</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PS-UINavigtaionBar-apperance-是获取全局的Navigtaion实例"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">PS:[UINavigtaionBar apperance] 是获取全局的Navigtaion实例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改NavigtaionBar的主色调"><span class="nav-number">2.1.1.</span> <span class="nav-text">修改NavigtaionBar的主色调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改NavigtaionBar背景图片"><span class="nav-number">2.1.2.</span> <span class="nav-text">修改NavigtaionBar背景图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改NavigtaionBar的字体"><span class="nav-number">2.1.3.</span> <span class="nav-text">修改NavigtaionBar的字体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#其他技巧-–2015-4-13更新-摘抄自网络"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">其他技巧 –2015/4/13更新 摘抄自网络</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tabbar修改篇"><span class="nav-number">3.</span> <span class="nav-text">Tabbar修改篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS6的Tabbar的样式和iOS7的相差很大。主要是图标选中样式，图标的高光，Tabbar的选中图片"><span class="nav-number">3.1.</span> <span class="nav-text">iOS6的Tabbar的样式和iOS7的相差很大。主要是图标选中样式，图标的高光，Tabbar的选中图片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改选中的时候Tabbar的那个白色框"><span class="nav-number">3.1.1.</span> <span class="nav-text">修改选中的时候Tabbar的那个白色框</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改Tabbar的背景图"><span class="nav-number">3.1.2.</span> <span class="nav-text">修改Tabbar的背景图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改TabBarItem未选中的文字的颜色"><span class="nav-number">3.1.3.</span> <span class="nav-text">修改TabBarItem未选中的文字的颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改TabBarItem未选中的图标的颜色"><span class="nav-number">3.1.4.</span> <span class="nav-text">修改TabBarItem未选中的图标的颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改TabBarItem的选中和未选中状态的图片"><span class="nav-number">3.1.5.</span> <span class="nav-text">修改TabBarItem的选中和未选中状态的图片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PS：这里我将图片的颜色修改成了我自己要的颜色"><span class="nav-number">3.1.5.1.</span> <span class="nav-text">PS：这里我将图片的颜色修改成了我自己要的颜色</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ToolBar修改篇"><span class="nav-number">4.</span> <span class="nav-text">ToolBar修改篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改ToolBar的背景图片"><span class="nav-number">4.0.1.</span> <span class="nav-text">修改ToolBar的背景图片</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NavigationBar-ButtonItem修改篇"><span class="nav-number">5.</span> <span class="nav-text">NavigationBar ButtonItem修改篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PS：我们修改了NavigationBar之后发现按钮还是原来的样子略丑"><span class="nav-number">5.0.0.1.</span> <span class="nav-text">PS：我们修改了NavigationBar之后发现按钮还是原来的样子略丑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我封装了3个方法-，大家可以按照自己的需要去封装"><span class="nav-number">5.0.0.2.</span> <span class="nav-text">我封装了3个方法 ，大家可以按照自己的需要去封装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接下来看下实现"><span class="nav-number">5.0.0.3.</span> <span class="nav-text">接下来看下实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XD-大家可以选择自己写这几个类，我这里只是给大家做参考的"><span class="nav-number">5.1.</span> <span class="nav-text">XD 大家可以选择自己写这几个类，我这里只是给大家做参考的</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小饼</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Loxe"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("kIIO80X8ngRciqBlih78FI6g-gzGzoHsz", "7Hnsei817eL3UF29vPDOSknK");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

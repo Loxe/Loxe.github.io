@@ -1,0 +1,857 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="ipa-build.zip#自动打包
+什么是自动打包自动打包，从名字就可以看的出来，就是利用shell脚本，完成本来需要手动操作的打包步骤。
+为什么需要自动打包有时候我们的一个项目有多个Targets，所以我们需要一个个去打包我们的ipa。（这里讲的是企业级证书的打包流程）这样会稍显繁琐，而且每个Target打包的时候需要长时间的等待。有什么解决方法呢？当然有，就是使用脚本自动执行打包。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa">
+<meta property="og:url" content="http://iloxe.com/2016/08/22/5/index.html">
+<meta property="og:site_name" content="小饼's Blog">
+<meta property="og:description" content="ipa-build.zip#自动打包
+什么是自动打包自动打包，从名字就可以看的出来，就是利用shell脚本，完成本来需要手动操作的打包步骤。
+为什么需要自动打包有时候我们的一个项目有多个Targets，所以我们需要一个个去打包我们的ipa。（这里讲的是企业级证书的打包流程）这样会稍显繁琐，而且每个Target打包的时候需要长时间的等待。有什么解决方法呢？当然有，就是使用脚本自动执行打包。">
+<meta property="og:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/04/1570730688.jpg">
+<meta property="og:updated_time" content="2016-09-08T04:05:28.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa">
+<meta name="twitter:description" content="ipa-build.zip#自动打包
+什么是自动打包自动打包，从名字就可以看的出来，就是利用shell脚本，完成本来需要手动操作的打包步骤。
+为什么需要自动打包有时候我们的一个项目有多个Targets，所以我们需要一个个去打包我们的ipa。（这里讲的是企业级证书的打包流程）这样会稍显繁琐，而且每个Target打包的时候需要长时间的等待。有什么解决方法呢？当然有，就是使用脚本自动执行打包。">
+<meta name="twitter:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/04/1570730688.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6321524076691064000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://iloxe.com/2016/08/22/5/"/>
+
+  <title> 【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa | 小饼's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?989980c62f433005169e134deea68b20";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小饼's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'PYuHnKBzPBMVZffYyof4','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T14:36:00+00:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/22/5/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/5/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/22/5/" class="leancloud_visitors" data-flag-title="【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/08/3082668077.zip" target="_blank" rel="external">ipa-build.zip</a>#自动打包</p>
+<h3 id="什么是自动打包"><a href="#什么是自动打包" class="headerlink" title="什么是自动打包"></a>什么是自动打包</h3><p>自动打包，从名字就可以看的出来，就是利用shell脚本，完成本来需要手动操作的打包步骤。</p>
+<h3 id="为什么需要自动打包"><a href="#为什么需要自动打包" class="headerlink" title="为什么需要自动打包"></a>为什么需要自动打包</h3><p>有时候我们的一个项目有多个Targets，所以我们需要一个个去打包我们的ipa。（这里讲的是企业级证书的打包流程）<br>这样会稍显繁琐，而且每个Target打包的时候需要长时间的等待。有什么解决方法呢？<br>当然有，就是使用脚本自动执行打包。<br><a id="more"></a></p>
+<h1 id="初衷"><a href="#初衷" class="headerlink" title="初衷"></a>初衷</h1><p>介于当初我初学，我在网上搜索了很多的资料，没有找到企业级证书自动打包的东西，我找了好久没有一篇完整的教程。也可能是我没有找到，所以我自己开始尝试写一个shell脚本，并且写一篇打包教程。</p>
+<p>并且前段时间我们公司有一个项目，然后有7个targets，然后我们是$299的证书，打包好是可以直接安装的那种，所以我每次需要手动点Archive 7次，点签名7次。<br>这还好 主要是等待的时间太久了，所以比较坑。</p>
+<h1 id="应用场景和优缺点"><a href="#应用场景和优缺点" class="headerlink" title="应用场景和优缺点"></a>应用场景和优缺点</h1><ul>
+<li>应用场景：企业证书，或者需要给越狱用户打包ipa的时候。</li>
+<li>优点：方便一键式生成ipa。</li>
+<li>缺点：$99证书只能生成出让越狱用户安装的ipa包。</li>
+</ul>
+<h1 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h1><ul>
+<li>方法1：xcodebuild编译代码，使用xcrun进行签名。</li>
+<li>方法2：转换成zip然后转换成ipa的方法。<br>我这里就选择方法一详细介绍，因为方法二的代码量看起来有点大。</li>
+</ul>
+<h3 id="什么是xcodebuild"><a href="#什么是xcodebuild" class="headerlink" title="什么是xcodebuild"></a>什么是xcodebuild</h3><p>xcodebuild[-project][-activetarget][-alltargets][-target]…[-parallelizeTargets][-activeconfiguration][-configuration][-sdk |][=]…[]…<br>xcodebuild[-version[-sdk |]]<br>xcodebuild[-showsdks]<br>xcodebuild[-find ][-sdk |]<br>xcodebuild[-list]<br>也可以在终端输入：xcodebuild –help 或 –h查看具体的选项<br>显示xcodebuildversion：xcodebuild –version<br>显示当前系统安装的sdk：xcodebuild –showsdks<br>显示当前目录下project Information：xcodebuild –list</p>
+<h3 id="什么是xcrun"><a href="#什么是xcrun" class="headerlink" title="什么是xcrun"></a>什么是xcrun</h3><p>此工具主要用于将app文件打包成ipa格式的程序包。（主要用于已越狱手机）。</p>
+<p><span style="color:#f00">补充：当证书是$99的时候签名的ipa确实是只能在越狱手机上安装 当证书$299的时候前面的证书是直接可以在未越狱的手机上安装的</span><br>具体用法如下：</p>
+<p>xcrun -sdk iphoneos PackageApplication –v [{TARGET}.app] -o [{TARGET}.ipa] –sign [{Iphone Distribution:xxx}] –embed [{xxx.mobileprovision}]    </p>
+<p><span style="color:#f00">所有的参数大家可以-h去查看</span></p>
+<h1 id="打包脚本"><a href="#打包脚本" class="headerlink" title="打包脚本"></a>打包脚本</h1><p>先上我写的打包脚本吧。第一次写的shell，见笑。</p>
+<p>#!/bin/sh  </p>
+<p>#这个是我的项目存放目录，也就是.xcodeproj所在的目录<br>projectPath=”/Users/zhag/Documents/srouce/GphoneBook1/“    </p>
+<p>#产生的ipa目录，签名完之后将ipa保存到哪里<br>releasePath=”/Users/zhag/Documents/release/“       </p>
+<p>#执行完xcodebuild编译之后，会自动产生一个build目录，这里指定.app目录所在位置<br>releaseDir=”build/Release-iphoneos/“              </p>
+<p>#cd就不用我解释了吧<br>cd ${projectPath}                                     </p>
+<p>#这个数组是我所有的targets，我这里就举例两个<br>targetArray=([0]=”GphoneBook” <a href="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/08/3082668077.zip" target="_blank" rel="external">1</a>=”GphoneBookC2”)           </p>
+<p>#签名完之后的.ipa叫什么名字<br>productArray=([0]=”ylcc” <a href="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/08/3082668077.zip" target="_blank" rel="external">1</a>=”C2” )   </p>
+<p>#clean项目<br>xcodebuild clean -configuration Distribution                </p>
+<p>i=0  </p>
+<p>#循环编译<br>for x in ${targetArray[@]}<br>do  </p>
+<p>#组合.APP文件路径<br>appPath=”${projectPath}${releaseDir}${x}.app”  </p>
+<p>#组合.APP文件路径<br>ipaPath=”${releasePath}${productArray[${i}]}.ipa”  </p>
+<p>#组合.ipa文件路径  </p>
+<p>#调用xcodebuild 进行打包  </p>
+<p>#-sdk 表示调用什么版本的SDK打包  -showsdk可以看到你当前所有的已安装的  </p>
+<h1 id="这里我说下我碰到的一个问题-我安装了xcode4-6-xcode5-0-所以sdk有时候会显示只有7-0-所以我需要选择xcode4-6"><a href="#这里我说下我碰到的一个问题-我安装了xcode4-6-xcode5-0-所以sdk有时候会显示只有7-0-所以我需要选择xcode4-6" class="headerlink" title="这里我说下我碰到的一个问题,我安装了xcode4.6 xcode5.0 所以sdk有时候会显示只有7.0,所以我需要选择xcode4.6"></a>这里我说下我碰到的一个问题,我安装了xcode4.6 xcode5.0 所以sdk有时候会显示只有7.0,所以我需要选择xcode4.6</h1><h1 id="sudo-xcode-select-switch-Applications-Xcode-app-用于选择不同的xocde"><a href="#sudo-xcode-select-switch-Applications-Xcode-app-用于选择不同的xocde" class="headerlink" title="sudo xcode-select -switch /Applications/Xcode.app  用于选择不同的xocde"></a>sudo xcode-select -switch /Applications/Xcode.app  用于选择不同的xocde</h1><p>#-target 打包哪个target  </p>
+<p>#-configuration  用于标识你是发布还是测试 在-help里面可以看到可选值<br>xcodebuild -sdk iphoneos -target ${x} -configuration Distribution  </p>
+<p>#签名  </p>
+<p>#-sdk同理  </p>
+<p>#packapplication 里面也有很多参数可以用help去查看  </p>
+<p>#–sign –embed 我解释下这两个吧，我在这里碰到过个问题，大家可以看到我这里是没有这两个参数的，这个时候我们就可以在项目里配置好 （看图1）这样就不需要设置了<br>xcrun -sdk iphoneos6.1 PackageApplication  -v ${appPath} -o ${ipaPath}  #-v是.app文件的路径  ，-o 就是output路径 也就是.ipa的路径<br>let i++<br>done  </p>
+<h3 id="图1"><a href="#图1" class="headerlink" title="图1"></a>图1</h3><p><img src="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/04/1570730688.jpg" alt="20131227110631437.jpg"></p>
+<h2 id="基本的打包教程就到这里过了"><a href="#基本的打包教程就到这里过了" class="headerlink" title="基本的打包教程就到这里过了"></a><span style="color:red">基本的打包教程就到这里过了</span></h2><h3 id="以下就是使用cocoapods的朋友们需要注意的了。"><a href="#以下就是使用cocoapods的朋友们需要注意的了。" class="headerlink" title="以下就是使用cocoapods的朋友们需要注意的了。"></a>以下就是使用cocoapods的朋友们需要注意的了。</h3><p>如果使用cocoapods之后，你打开项目就不是.xcodeproj这个文件了，而是.xcworkspace。</p>
+<p>所以我们用上面的打包语句会出错，所以我们需要修改xcodebuild这句。这里我也坑了好几个小时，我也把我过程中碰到的问题给大家分享下。</p>
+<p>先看下我补充的代码</p>
+<p>scheme_name=$(echo $(basename ./*.xcodeproj) | awk -F. ‘{print $1}’)<br>xcodebuild -workspace test.xcworkspace -scheme ${scheme_name}  -configuration Distribution CONFIGURATION_BUILD_DIR=~/Desktop/build</p>
+<p>大家注意到，我多了scheme_name，-workspace，还有-scheme，以及CONFIGURATION_BUILD_DIR<br>这里需要解释的就是scheme_name 这句的效果，这句是获得和workspace名字相同的.xcodeproj的文件名，注意是不带扩展名的。这个scheme_name可以使用常量(我这里可以直接写GphoneBook，不需要扩展名)</p>
+<p>还有当我们指定-workspace之后，一定要指定-scheme就是项目名称，也就是策略，你要打包哪个项目。并且需要指定输出目录CONFIGURATION_BUILD_DIR</p>
+<p>不然会报错。</p>
+<p><span style="color:red">PS：我之前一直不知道-scheme是什么= =# 坑了好久的说。</span></p>
+<p>这里我再分享一个坑：就是你的输出路径你的当前用户一定要有权限，或者你可以修改权限777</p>
+<h1 id="好了-简单的教程-大家随便看啊-，欢迎补充"><a href="#好了-简单的教程-大家随便看啊-，欢迎补充" class="headerlink" title="好了 简单的教程 大家随便看啊 ，欢迎补充~"></a>好了 简单的教程 大家随便看啊 ，欢迎补充~</h1>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/22/4/" rel="next" title="【iOS开发技术】NSPredicate谓词的用法 数组过滤">
+                <i class="fa fa-chevron-left"></i> 【iOS开发技术】NSPredicate谓词的用法 数组过滤
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/22/7/" rel="prev" title="【iOS开发技术】原生Navigtaion和Tab 的定制与修改">
+                【iOS开发技术】原生Navigtaion和Tab 的定制与修改 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/22/5/"
+           data-title="【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa" data-url="http://iloxe.com/2016/08/22/5/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://loxe-gravatar.qiniudn.com/avatar/55a42346198de4bb76f606b9bf4e66c2"
+               alt="小饼" />
+          <p class="site-author-name" itemprop="name">小饼</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Loxe" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2272928710" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lvhuan.me/" title="菖蒲" target="_blank">菖蒲</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hijimo.com/" title="寂寞家" target="_blank">寂寞家</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是自动打包"><span class="nav-number">1.</span> <span class="nav-text">什么是自动打包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么需要自动打包"><span class="nav-number">2.</span> <span class="nav-text">为什么需要自动打包</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初衷"><span class="nav-number"></span> <span class="nav-text">初衷</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用场景和优缺点"><span class="nav-number"></span> <span class="nav-text">应用场景和优缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现方法"><span class="nav-number"></span> <span class="nav-text">实现方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是xcodebuild"><span class="nav-number">1.</span> <span class="nav-text">什么是xcodebuild</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是xcrun"><span class="nav-number">2.</span> <span class="nav-text">什么是xcrun</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#打包脚本"><span class="nav-number"></span> <span class="nav-text">打包脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#这里我说下我碰到的一个问题-我安装了xcode4-6-xcode5-0-所以sdk有时候会显示只有7-0-所以我需要选择xcode4-6"><span class="nav-number"></span> <span class="nav-text">这里我说下我碰到的一个问题,我安装了xcode4.6 xcode5.0 所以sdk有时候会显示只有7.0,所以我需要选择xcode4.6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sudo-xcode-select-switch-Applications-Xcode-app-用于选择不同的xocde"><span class="nav-number"></span> <span class="nav-text">sudo xcode-select -switch /Applications/Xcode.app  用于选择不同的xocde</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图1"><span class="nav-number">1.</span> <span class="nav-text">图1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的打包教程就到这里过了"><span class="nav-number"></span> <span class="nav-text">基本的打包教程就到这里过了</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以下就是使用cocoapods的朋友们需要注意的了。"><span class="nav-number">1.</span> <span class="nav-text">以下就是使用cocoapods的朋友们需要注意的了。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#好了-简单的教程-大家随便看啊-，欢迎补充"><span class="nav-number"></span> <span class="nav-text">好了 简单的教程 大家随便看啊 ，欢迎补充~</span></a></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小饼</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Loxe"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("kIIO80X8ngRciqBlih78FI6g-gzGzoHsz", "7Hnsei817eL3UF29vPDOSknK");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

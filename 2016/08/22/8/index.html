@@ -1,0 +1,838 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言在看这篇文章之前希望大家先看一下我另外一片文章，Block的使用（一） 还有一篇 对象关联 这两篇文章。
+PS:XD虽然写的不好随便看看呐~接下来我就结合这两篇文章给大家演示一个我前端时间看到的一个比较新颖的东西吧。PS：高手勿喷啊，新手表示这个还是挺新奇的。
+简介这里我结合一个按钮、Block、以及objc_setAssociatedObject（关联对象）三个东西给大家。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS开发技术】Block的使用（二）">
+<meta property="og:url" content="http://iloxe.com/2016/08/22/8/index.html">
+<meta property="og:site_name" content="小饼's Blog">
+<meta property="og:description" content="前言在看这篇文章之前希望大家先看一下我另外一片文章，Block的使用（一） 还有一篇 对象关联 这两篇文章。
+PS:XD虽然写的不好随便看看呐~接下来我就结合这两篇文章给大家演示一个我前端时间看到的一个比较新颖的东西吧。PS：高手勿喷啊，新手表示这个还是挺新奇的。
+简介这里我结合一个按钮、Block、以及objc_setAssociatedObject（关联对象）三个东西给大家。">
+<meta property="og:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/05/3514073082.jpg">
+<meta property="og:updated_time" content="2016-09-08T04:05:28.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【iOS开发技术】Block的使用（二）">
+<meta name="twitter:description" content="前言在看这篇文章之前希望大家先看一下我另外一片文章，Block的使用（一） 还有一篇 对象关联 这两篇文章。
+PS:XD虽然写的不好随便看看呐~接下来我就结合这两篇文章给大家演示一个我前端时间看到的一个比较新颖的东西吧。PS：高手勿喷啊，新手表示这个还是挺新奇的。
+简介这里我结合一个按钮、Block、以及objc_setAssociatedObject（关联对象）三个东西给大家。">
+<meta name="twitter:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/05/3514073082.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6321524076691064000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://iloxe.com/2016/08/22/8/"/>
+
+  <title> 【iOS开发技术】Block的使用（二） | 小饼's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?989980c62f433005169e134deea68b20";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小饼's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'PYuHnKBzPBMVZffYyof4','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【iOS开发技术】Block的使用（二）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T14:41:21+00:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/22/8/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/8/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/22/8/" class="leancloud_visitors" data-flag-title="【iOS开发技术】Block的使用（二）">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在看这篇文章之前希望大家先看一下我另外一片文章，<a href="http://loxe.me/index.php/archives/11/" target="_blank" rel="external">Block的使用（一）</a> 还有一篇 <a href="http://loxe.me/index.php/archives/12/" target="_blank" rel="external">对象关联</a> 这两篇文章。</p>
+<h3 id="PS-XD虽然写的不好随便看看呐"><a href="#PS-XD虽然写的不好随便看看呐" class="headerlink" title="PS:XD虽然写的不好随便看看呐~"></a>PS:XD虽然写的不好随便看看呐~</h3><p>接下来我就结合这两篇文章给大家演示一个我前端时间看到的一个比较新颖的东西吧。<br>PS：高手勿喷啊，新手表示这个还是挺新奇的。</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>这里我结合一个按钮、Block、以及objc_setAssociatedObject（关联对象）三个东西给大家。</p>
+<a id="more"></a>
+<h1 id="引语"><a href="#引语" class="headerlink" title="引语"></a>引语</h1><p>Button的每个事件我们都是通过 addTarget: action: forControlEvents: 去指定的，这样我们的方法体就需要另外写，虽然说没什么问题。但是我总觉得我阅读起来要上下翻动令我很不舒服。<br>所以我就想，有没有办法让按钮的点击调用一个Block呢？<br>PS:XD既然我写了这篇文章那肯定有啦。哈哈…</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>好了废话不多了。</p>
+<p>[Button addTarget:self action:@(要执行的SEL) forControlEvents:UIControlEvents];</p>
+<p>原本我们的代码需要酱紫写，才可以给一个按钮添加一个事件。<br>问题就是我每次都要去找那个SEL=-  = 出于学习目的，我们把它改为Block形式好了</p>
+<h3 id="接下来看一段我写的代码吧"><a href="#接下来看一段我写的代码吧" class="headerlink" title="接下来看一段我写的代码吧"></a>接下来看一段我写的代码吧</h3><p>UIButton * b=[UIButton buttonWithType:UIButtonTypeSystem];<br>[btn setFrame:CGRectMake(50, 50, 100, 100)];<br>[btn setTitle:@”按钮B” forState:UIControlStateNormal];<br>[btn addBlockEventWithEvent:UIControlEventTouchUpInside withBlock:^{<br>NSLog(@”b按钮被点击了”);<br>}];</p>
+<p>这段代码看上去就很简单了!应该不需要我多做解释了。XD</p>
+<h3 id="主要看一下实现吧"><a href="#主要看一下实现吧" class="headerlink" title="主要看一下实现吧"></a>主要看一下实现吧</h3><p>先看我的代码结构吧=-  = 就是酱紫的。<br><img src="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/05/3514073082.jpg" alt="aaa3.jpg"></p>
+<p>那我们来看两个文件的具体实现吧=-  = </p>
+<h3 id="UIButton-Block-h"><a href="#UIButton-Block-h" class="headerlink" title="UIButton+Block.h"></a>UIButton+Block.h</h3><p>#import <foundation foundation.h=""></foundation></p>
+<p>#import <objc runtime.h=""></objc></p>
+<p>typedef void (^ActionBlock)();<br>@interface UIButton(Block)<br>@property (readonly) NSMutableDictionary *event;</p>
+<ul>
+<li>(void) addBlockEventWithEvent:(UIControlEvents)controlEvent withBlock:(ActionBlock)action;</li>
+</ul>
+<p>@end</p>
+<h3 id="UIButton-Block-m"><a href="#UIButton-Block-m" class="headerlink" title="UIButton+Block.m"></a>UIButton+Block.m</h3><p>#import “UIButton+Block.h”</p>
+<p>@implementation UIButton(Block)</p>
+<p>static char overviewKey;<br>@dynamic event;</p>
+<ul>
+<li><p>(void)addBlockEventWithEvent:(UIControlEvents)event withBlock:(ActionBlock)block {<br>objc_setAssociatedObject(self, &amp;overviewKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);<br>[self addTarget:self action:@selector(callActionBlock:) forControlEvents:event];<br>}</p>
+</li>
+<li><p>(void)callActionBlock:(id)sender {<br>ActionBlock block = (ActionBlock)objc_getAssociatedObject(self, &amp;overviewKey);<br>if (block) {<br>block();<br>}<br>}</p>
+</li>
+</ul>
+<p>@end</p>
+<p>这两段代码其实很容易理解。<br>主要就是我建了一个方法，然后在这个方法里面把传递的block关联到当前的button上面，酱紫按钮销毁了这个block也会跟着销毁<br>然后在点击事件执行当前按钮里面关联的block</p>
+<p>XD其实我觉得这个代码太简单了，貌似没什么好说的了…</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>从这个使用方法上我们可以有很多中延伸，比如在AlertView…等等<br>可以自己去实验，嘿嘿，我也是第一次搞。XD</p>
+<h2 id="猛击这里下载示例代码-XD-☞ButtonBlock-zip☜"><a href="#猛击这里下载示例代码-XD-☞ButtonBlock-zip☜" class="headerlink" title="猛击这里下载示例代码 XD ☞ButtonBlock.zip☜"></a>猛击这里下载示例代码 XD ☞<a href="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2014/05/2167928676.zip" target="_blank" rel="external">ButtonBlock.zip</a>☜</h2>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/22/7/" rel="next" title="【iOS开发技术】原生Navigtaion和Tab 的定制与修改">
+                <i class="fa fa-chevron-left"></i> 【iOS开发技术】原生Navigtaion和Tab 的定制与修改
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/22/9/" rel="prev" title="路上的那一天">
+                路上的那一天 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/22/8/"
+           data-title="【iOS开发技术】Block的使用（二）" data-url="http://iloxe.com/2016/08/22/8/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://loxe-gravatar.qiniudn.com/avatar/55a42346198de4bb76f606b9bf4e66c2"
+               alt="小饼" />
+          <p class="site-author-name" itemprop="name">小饼</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Loxe" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2272928710" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lvhuan.me/" title="菖蒲" target="_blank">菖蒲</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hijimo.com/" title="寂寞家" target="_blank">寂寞家</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PS-XD虽然写的不好随便看看呐"><span class="nav-number">1.0.1.</span> <span class="nav-text">PS:XD虽然写的不好随便看看呐~</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引语"><span class="nav-number">3.</span> <span class="nav-text">引语</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">4.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接下来看一段我写的代码吧"><span class="nav-number">4.0.1.</span> <span class="nav-text">接下来看一段我写的代码吧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主要看一下实现吧"><span class="nav-number">4.0.2.</span> <span class="nav-text">主要看一下实现吧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIButton-Block-h"><span class="nav-number">4.0.3.</span> <span class="nav-text">UIButton+Block.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIButton-Block-m"><span class="nav-number">4.0.4.</span> <span class="nav-text">UIButton+Block.m</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#猛击这里下载示例代码-XD-☞ButtonBlock-zip☜"><span class="nav-number">5.1.</span> <span class="nav-text">猛击这里下载示例代码 XD ☞ButtonBlock.zip☜</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小饼</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Loxe"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("kIIO80X8ngRciqBlih78FI6g-gzGzoHsz", "7Hnsei817eL3UF29vPDOSknK");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

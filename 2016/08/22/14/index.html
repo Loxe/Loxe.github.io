@@ -1,0 +1,869 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章我我看到的转载一下写的确实不错 虽然我已经会了 大家都可以看看
+概述iOS原生应用和web页面的交互大致上有这几种方法iOS7之后的JavaScriptCore、拦截协议、第三方框架WebViewJavaScriptBridge、iOS8之后的WKWebView在这里主要讲解JavaScriptCore和拦截协议这两种办法。WebViewJavaScriptBridge是基于拦截协议进行的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转】Objective-C与JavaScript交互的那些事">
+<meta property="og:url" content="http://iloxe.com/2016/08/22/14/index.html">
+<meta property="og:site_name" content="小饼's Blog">
+<meta property="og:description" content="这篇文章我我看到的转载一下写的确实不错 虽然我已经会了 大家都可以看看
+概述iOS原生应用和web页面的交互大致上有这几种方法iOS7之后的JavaScriptCore、拦截协议、第三方框架WebViewJavaScriptBridge、iOS8之后的WKWebView在这里主要讲解JavaScriptCore和拦截协议这两种办法。WebViewJavaScriptBridge是基于拦截协议进行的">
+<meta property="og:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2016/02/4180292298.png">
+<meta property="og:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2016/02/990754480.png">
+<meta property="og:updated_time" content="2016-09-08T04:05:28.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【转】Objective-C与JavaScript交互的那些事">
+<meta name="twitter:description" content="这篇文章我我看到的转载一下写的确实不错 虽然我已经会了 大家都可以看看
+概述iOS原生应用和web页面的交互大致上有这几种方法iOS7之后的JavaScriptCore、拦截协议、第三方框架WebViewJavaScriptBridge、iOS8之后的WKWebView在这里主要讲解JavaScriptCore和拦截协议这两种办法。WebViewJavaScriptBridge是基于拦截协议进行的">
+<meta name="twitter:image" content="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2016/02/4180292298.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6321524076691064000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://iloxe.com/2016/08/22/14/"/>
+
+  <title> 【转】Objective-C与JavaScript交互的那些事 | 小饼's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?989980c62f433005169e134deea68b20";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小饼's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'PYuHnKBzPBMVZffYyof4','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【转】Objective-C与JavaScript交互的那些事
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T14:44:43+00:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/22/14/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/14/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/22/14/" class="leancloud_visitors" data-flag-title="【转】Objective-C与JavaScript交互的那些事">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="这篇文章我我看到的"><a href="#这篇文章我我看到的" class="headerlink" title="这篇文章我我看到的"></a>这篇文章我我看到的</h1><h2 id="转载一下写的确实不错-虽然我已经会了-大家都可以看看"><a href="#转载一下写的确实不错-虽然我已经会了-大家都可以看看" class="headerlink" title="转载一下写的确实不错 虽然我已经会了 大家都可以看看"></a>转载一下写的确实不错 虽然我已经会了 大家都可以看看</h2><p><img src="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2016/02/4180292298.png" alt="逻辑图"></p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>iOS原生应用和web页面的交互大致上有这几种方法iOS7之后的JavaScriptCore、拦截协议、第三方框架WebViewJavaScriptBridge、iOS8之后的WKWebView在这里主要讲解JavaScriptCore和拦截协议这两种办法。WebViewJavaScriptBridge是基于拦截协议进行的封装。学习成本相对JavaScriptCore较高，使用也不如JavaScriptCore方便本文不做叙述。WKWebView是iOS8之后推出的，还没有成为主流使用，所以本篇文章也不做详细叙述。</p>
+<a id="more"></a>
+<h1 id="Objective-C执行JavaScript代码"><a href="#Objective-C执行JavaScript代码" class="headerlink" title="Objective-C执行JavaScript代码"></a>Objective-C执行JavaScript代码</h1><h2 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a>相关方法</h2><p>// UIWebView的方法</p>
+<ul>
+<li>(nullable NSString <em>)stringByEvaluatingJavaScriptFromString:(NSString </em>)script;</li>
+</ul>
+<p>// JavaScriptCore中JSContext的方法</p>
+<ul>
+<li>(JSValue <em>)evaluateScript:(NSString </em>)script;</li>
+<li>(JSValue <em>)evaluateScript:(NSString </em>)script withSourceURL:(NSURL *)sourceURL</li>
+</ul>
+<h2 id="相关应用"><a href="#相关应用" class="headerlink" title="相关应用"></a>相关应用</h2><p>用这些方法去执行大段的JavaScript代码是没什么必要的，但是有些小场景用起来还是比较顺手和实用的，列举两个例子作为参考：</p>
+<p>// 获取当前页面的title<br>NSString *title = [webview stringByEvaluatingJavaScriptFromString:@”document.title”];</p>
+<p>// 获取当前页面的url<br>NSString *url = [webview stringByEvaluatingJavaScriptFromString:@”document.location.href”];</p>
+<h2 id="JavaScriptCore"><a href="#JavaScriptCore" class="headerlink" title="JavaScriptCore"></a>JavaScriptCore</h2><p>iOS7之后苹果推出了JavaScriptCore这个框架，从而让web页面和本地原生应用交互起来非常方便，而且使用此框架可以做到Android那边和iOS相对统一，web前端写一套代码就可以适配客户端的两个平台，从而减少了web前端的工作量。</p>
+<h2 id="web前端"><a href="#web前端" class="headerlink" title="web前端"></a>web前端</h2><p>在三端交互中，web前端要强势一些，一切传值、方法命名都按web前端开发人员来定义，让另外两端去做适配。在这里以调用摄像头和分享为例来详细讲解，测试网页代码取名为test.html，其代码内容如下：</p>
+<h5 id="test-html代码内容"><a href="#test-html代码内容" class="headerlink" title="test.html代码内容"></a>test.html代码内容</h5><p>&lt;!DOCTYPE html&gt;</p>
+<html><br><head lang="en"><br><meta charset="UTF-8"><br></head><br><body><br><div style="margin-top: 100px"><br><h1>Objective-C和JavaScript交互的那些事</h1><br><input type="button" value="CallCamera" onclick="Toyun.callCamera()"><br></div><br><br><div><br><input type="button" value="Share" onclick="callShare()"><br></div><br><br><script><br>var callShare = function() {<br>var shareInfo = JSON.stringify({“title”: “标题”, “desc”: “内容”, “shareUrl”: “<a href="http://www.jianshu.com/p/f896d73c670a">http://www.jianshu.com/p/f896d73c670a</a>“,<br>“shareIco”:”<a href="http://upload-images.jianshu.io/upload_images/1192353-fd26211d54aea8a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot;}">http://upload-images.jianshu.io/upload_images/1192353-fd26211d54aea8a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot;}</a>);<br>Toyun.share(shareInfo);<br>}<br><br>var picCallback = function(photos) {<br>alert(photos);<br>}<br><br>var shareCallback = function(){<br>alert(‘success’);<br>}<br></script><br></body><br></html>
+
+<h2 id="test-html代码解释"><a href="#test-html代码解释" class="headerlink" title="test.html代码解释"></a>test.html代码解释</h2><p>可能有些同学对web前端的一些知识不太熟悉，稍微对这段代码做下解释，先说Toyun是iOS和Android这两边在本地要注入的一个对象【参考下面iOS的代码更容易明白】，充当原生应用和web页面之间的一个桥梁。页面上定义了两个按钮名字分别为CallCamera和Share。点击CallCamera会通过Toyun这个桥梁调用本地应用的方法- (void)callCamera，没有传参；而点击Share会先调用本文件中的JavaScript方法callShare这里将要分享的内容格式转成JSON字符串格式（这样做是为了适配Android，iOS可以直接接受JSON对象）然后再通过Toyun这个桥梁去调用原生应用的- (void)share:(NSString *)shareInfo方法这个是有传参的，参数为shareInfo。而下面的两个方法为原生方法调用后的回调方法，其中picCallback为获取图片成功的回调方法，并且传回拿到的图片photos；shareCallback为分享成功的回调方法。</p>
+<h2 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h2><p>iOS这边根据前端定义的方法名来写代码，但是有些时候web前端会让我们定义，但是我们定义好之后他又要修改，这时候就会很烦啊。所以碰到三端交互的时候最好就是让web前端去定义方法名，iOS和Android根据web前端定义好的去写代码。JavaScriptCore中web页面调用原生应用的方法可以用Delegate或Block两种方法，此文以按Delegate讲解。</p>
+<h2 id="JavaScriptCore中类及协议："><a href="#JavaScriptCore中类及协议：" class="headerlink" title="JavaScriptCore中类及协议："></a>JavaScriptCore中类及协议：</h2><p><em>JSContext：给JavaScript提供运行的上下文环境
+</em>JSValue：JavaScript和Objective-C数据和方法的桥梁<br><em>JSManagedValue：管理数据和方法的类
+</em>JSVirtualMachine：处理线程相关，使用较少<br>*JSExport：这是一个协议，如果采用协议的方法交互，自己定义的协议必须遵守此协议</p>
+<h2 id="ViewController中的代码"><a href="#ViewController中的代码" class="headerlink" title="ViewController中的代码"></a>ViewController中的代码</h2><p>#import “ViewController.h”</p>
+<p>#import <javascriptcore javascriptcore.h=""></javascriptcore></p>
+<p>@protocol JSObjcDelegate <jsexport></jsexport></p>
+<ul>
+<li>(void)callCamera;</li>
+<li>(void)share:(NSString *)shareString;</li>
+</ul>
+<p>@end</p>
+<p>@interface ViewController () <uiwebviewdelegate, jsobjcdelegate=""></uiwebviewdelegate,></p>
+<p>@property (nonatomic, strong) JSContext <em>jsContext;<br>@property (weak, nonatomic) IBOutlet UIWebView </em>webView;</p>
+<p>@end</p>
+<p>@implementation ViewController</p>
+<p>#pragma mark - Life Circle</p>
+<ul>
+<li>(void)viewDidLoad {<br>[super viewDidLoad];</li>
+</ul>
+<p>NSURL *url = [[NSBundle mainBundle] URLForResource:@”test” withExtension:@”html”];<br>[self.webView loadRequest:[[NSURLRequest alloc] initWithURL:url]];</p>
+<p>}</p>
+<p>#pragma mark - UIWebViewDelegate</p>
+<ul>
+<li>(void)webViewDidFinishLoad:(UIWebView <em>)webView {<br>self.jsContext = [webView valueForKeyPath:@”documentView.webView.mainFrame.javaScriptContext”];<br>self.jsContext[@”Toyun”] = self;<br>self.jsContext.exceptionHandler = ^(JSContext </em>context, JSValue *exceptionValue) {<br>context.exception = exceptionValue;<br>NSLog(@”异常信息：%@”, exceptionValue);<br>};<br>}</li>
+</ul>
+<p>#pragma mark - JSObjcDelegate</p>
+<ul>
+<li><p>(void)callCamera {<br>NSLog(@”callCamera”);<br>// 获取到照片之后在回调js的方法picCallback把图片传出去<br>JSValue *picCallback = self.jsContext[@”picCallback”];<br>[picCallback callWithArguments:@[@”photos”]];<br>}</p>
+</li>
+<li><p>(void)share:(NSString <em>)shareString {<br>NSLog(@”share:%@”, shareString);<br>// 分享成功回调js的方法shareCallback<br>JSValue </em>shareCallback = self.jsContext[@”shareCallback”];<br>[shareCallback callWithArguments:nil];<br>}</p>
+</li>
+</ul>
+<p>@end</p>
+<p>ViewController中的代码解释</p>
+<p>自定义JSObjcDelegate协议，而且此协议必须遵守JSExport这个协议，自定义协议中的方法就是暴露给web页面的方法。在webView加载完毕的时候获取JavaScript运行的上下文环境，然后再注入桥梁对象名为Toyun，承载的对象为self即为此控制器，控制器遵守此自定义协议实现协议中对应的方法。在JavaStript调用完本地应用的方法做完相对应的事情之后，又回调了JavaStript中对应的方法，从而实现了web页面和本地应用之间的通讯。</p>
+<p>JavaScriptCore使用注意</p>
+<p>JavaStript调用本地方法是在子线程中执行的，这里要根据实际情况考虑线程之间的切换，而在回调JavaScript方法的时候最好是在刚开始调用此方法的线程中去执行那段JavaStript方法的代码，我在实际运用中开始没注意，就被坑惨了啊。什么，说的太绕，看下面的代码解释：</p>
+<p>//  假设此方法是在子线程中执行的，线程名sub-thread</p>
+<ul>
+<li>(void)callCamera {     ![01.png][1]<br>// 这句假设要在主线程中执行，线程名main-thread<br>NSLog(@”callCamera”);  </li>
+</ul>
+<p>// 下面这两句代码最好还是要在子线程sub-thread中执行啊<br>JSValue *picCallback = self.jsContext[@”picCallback”];<br>[picCallback callWithArguments:@[@”photos”]];<br>}</p>
+<h2 id="运行效果"><a href="#运行效果" class="headerlink" title="运行效果"></a>运行效果</h2><p><img src="http://loxe.oss-cn-hangzhou.aliyuncs.com/usr/uploads/2016/02/990754480.png" alt="运行效果"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/22/13/" rel="next" title="【转】OC的反射机制">
+                <i class="fa fa-chevron-left"></i> 【转】OC的反射机制
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/22/16/" rel="prev" title="【iOS技术】APP的签名和重打包的学习">
+                【iOS技术】APP的签名和重打包的学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/22/14/"
+           data-title="【转】Objective-C与JavaScript交互的那些事" data-url="http://iloxe.com/2016/08/22/14/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://loxe-gravatar.qiniudn.com/avatar/55a42346198de4bb76f606b9bf4e66c2"
+               alt="小饼" />
+          <p class="site-author-name" itemprop="name">小饼</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Loxe" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2272928710" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lvhuan.me/" title="菖蒲" target="_blank">菖蒲</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hijimo.com/" title="寂寞家" target="_blank">寂寞家</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#这篇文章我我看到的"><span class="nav-number">1.</span> <span class="nav-text">这篇文章我我看到的</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#转载一下写的确实不错-虽然我已经会了-大家都可以看看"><span class="nav-number">1.1.</span> <span class="nav-text">转载一下写的确实不错 虽然我已经会了 大家都可以看看</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Objective-C执行JavaScript代码"><span class="nav-number">3.</span> <span class="nav-text">Objective-C执行JavaScript代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相关方法"><span class="nav-number">3.1.</span> <span class="nav-text">相关方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关应用"><span class="nav-number">3.2.</span> <span class="nav-text">相关应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScriptCore"><span class="nav-number">3.3.</span> <span class="nav-text">JavaScriptCore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web前端"><span class="nav-number">3.4.</span> <span class="nav-text">web前端</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#test-html代码内容"><span class="nav-number">3.4.0.0.1.</span> <span class="nav-text">test.html代码内容</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">Objective-C和JavaScript交互的那些事</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#test-html代码解释"><span class="nav-number">4.1.</span> <span class="nav-text">test.html代码解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS"><span class="nav-number">4.2.</span> <span class="nav-text">iOS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScriptCore中类及协议："><span class="nav-number">4.3.</span> <span class="nav-text">JavaScriptCore中类及协议：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ViewController中的代码"><span class="nav-number">4.4.</span> <span class="nav-text">ViewController中的代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行效果"><span class="nav-number">4.5.</span> <span class="nav-text">运行效果</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小饼</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Loxe"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("kIIO80X8ngRciqBlih78FI6g-gzGzoHsz", "7Hnsei817eL3UF29vPDOSknK");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

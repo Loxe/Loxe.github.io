@@ -1,0 +1,837 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="NSPredicate是什么NSPredicate：谓词字面翻译是这个意思，但是我觉得谓词这个词太难以理解了NSPredicate的具体用途应该还是过滤，类似于过滤条件之类的，相当于一个主语的谓语，所以说会是谓词这个名字。（我是这么理解的）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS开发技术】NSPredicate谓词的用法 数组过滤">
+<meta property="og:url" content="http://iloxe.com/2016/08/22/4/index.html">
+<meta property="og:site_name" content="小饼's Blog">
+<meta property="og:description" content="NSPredicate是什么NSPredicate：谓词字面翻译是这个意思，但是我觉得谓词这个词太难以理解了NSPredicate的具体用途应该还是过滤，类似于过滤条件之类的，相当于一个主语的谓语，所以说会是谓词这个名字。（我是这么理解的）">
+<meta property="og:updated_time" content="2016-09-08T04:05:28.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【iOS开发技术】NSPredicate谓词的用法 数组过滤">
+<meta name="twitter:description" content="NSPredicate是什么NSPredicate：谓词字面翻译是这个意思，但是我觉得谓词这个词太难以理解了NSPredicate的具体用途应该还是过滤，类似于过滤条件之类的，相当于一个主语的谓语，所以说会是谓词这个名字。（我是这么理解的）">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6321524076691064000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://iloxe.com/2016/08/22/4/"/>
+
+  <title> 【iOS开发技术】NSPredicate谓词的用法 数组过滤 | 小饼's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?989980c62f433005169e134deea68b20";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小饼's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'PYuHnKBzPBMVZffYyof4','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【iOS开发技术】NSPredicate谓词的用法 数组过滤
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T14:35:28+00:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/22/4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/4/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/22/4/" class="leancloud_visitors" data-flag-title="【iOS开发技术】NSPredicate谓词的用法 数组过滤">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="NSPredicate是什么"><a href="#NSPredicate是什么" class="headerlink" title="NSPredicate是什么"></a>NSPredicate是什么</h1><p>NSPredicate：谓词<br>字面翻译是这个意思，但是我觉得谓词这个词太难以理解了<br>NSPredicate的具体用途应该还是过滤，类似于过滤条件之类的，相当于一个主语的谓语，所以说会是谓词这个名字。（我是这么理解的）<br><a id="more"></a></p>
+<h2 id="NSPredicate的创建"><a href="#NSPredicate的创建" class="headerlink" title="NSPredicate的创建"></a>NSPredicate的创建</h2><p>我们看到创建谓词使用类方法predicateWithFormat: (NSString*) format，format 里的东西真的<br>和SQL 的where 条件差不多。<br>另外，参数format 与NSLog 的格式化模版差不多，如果1 和<br>188.0 是传递过来的参数，你可以写成如下的形式：<br>@”pid&gt;%d and height&lt;%f”,1,188.0</p>
+<h3 id="NSPredicate中主要的几种运算方式"><a href="#NSPredicate中主要的几种运算方式" class="headerlink" title="NSPredicate中主要的几种运算方式"></a>NSPredicate中主要的几种运算方式</h3><p>1.比较运算符 &gt; 、&lt; 、== 、 &gt;= 、&lt;= 、 !=<br>例：@”number &gt;= 99”</p>
+<p>2.逻辑运算符：AND、OR、NOT 这几个运算符计算并、或、非的结果。</p>
+<p>3.范围运算符：IN 、BETWEEN<br>例：@”number BETWEEN {1,5}”<br>@”address IN {‘shanghai’,’nanjing’}”</p>
+<p>4.字符串本身:SELF<br>例：@”SELF == ‘APPLE’”</p>
+<p>5.字符串相关：BEGINSWITH、ENDSWITH、CONTAINS<br>例： @”name CONTAIN[cd] ‘ang’”   //包含某个字符串<br>@”name BEGINSWITH[c] ‘sh’”     //以某个字符串开头<br>@”name ENDSWITH[d] ‘ang’”      //以某个字符串结束<br>注:[c]不区分大小写 , [d]不区分发音符号即没有重音符号 , [cd]既不区分大小写，也不区分发音符号。</p>
+<p>6.通配符：LIKE<br>例：@”name LIKE[cd] ‘*er*‘“    //<em>代表通配符,Like也接受[cd].<br>@”name LIKE[cd] ‘???er\</em>‘“</p>
+<p>7.正则表达式：MATCHES<br>例：NSString *regex = @”^A.+e$”;   //以A开头，e结尾<br>@”name MATCHES %@”,regex</p>
+<h1 id="如何使用NSPredicate对一个自定义实体进行筛选"><a href="#如何使用NSPredicate对一个自定义实体进行筛选" class="headerlink" title="如何使用NSPredicate对一个自定义实体进行筛选"></a>如何使用NSPredicate对一个自定义实体进行筛选</h1><p>NSPredicate我暂时都是用于过滤的，否则我们过滤就需要自己写判断 写循环，去判断输出了。<br>接下来就上代码和例子吧。</p>
+<h2 id="建立一个实体类-Dog"><a href="#建立一个实体类-Dog" class="headerlink" title="建立一个实体类 Dog"></a>建立一个实体类 Dog</h2><p>@property (copy   , nonatomic) NSString* name;<br>@property (assign , nonatomic) int       age ;<br>这样我们就有一个类了<br>我们创建 5只Dog的实体</p>
+<p>Dog <em> dog1=[Dog news];dog1.name=@”这是第一只Dog”;dog1.age=@”11”;<br>Dog </em> dog2=[Dog news];dog2.name=@”这是第二只Dog”;dog2.age=@”22”;<br>Dog <em> dog3=[Dog news];dog3.name=@”这是第三只Dog”;dog3.age=@”33”;<br>Dog </em> dog4=[Dog news];dog4.name=@”这是第四只Dog”;dog4.age=@”44”;<br>Dog * dog5=[Dog news];dog5.name=@”这是第五只Dog”;dog5.age=@”55”;</p>
+<p>不要吐槽我的Dogs的年龄 →   。→<br>然后我们需要一个Array把他们都装进去</p>
+<p>NSArray * dogArr=@[dog1,dog2,dog3,dog4,dog5];</p>
+<p>酱紫所有的Dog都装到一个数组里了</p>
+<h2 id="使用NSPredicate的筛选"><a href="#使用NSPredicate的筛选" class="headerlink" title="使用NSPredicate的筛选"></a>使用NSPredicate的筛选</h2><ol>
+<li>没有使用NSPredicate的筛选应该大家都会写，循环+判断。。。</li>
+<li>使用NSPredicate的筛选</li>
+</ol>
+<h4 id="具体使用的代码"><a href="#具体使用的代码" class="headerlink" title="具体使用的代码"></a>具体使用的代码</h4><p>//创建谓词的对象 谓词条件是基于KVC的，所以需要说明一点，加入Dog里面有个属性是Doginfo指向Doginfo类，在使用的时候 我们的条件就要写成Doginfo.xxx了。<br>NSPredicate<em> predicate = [NSPredicate predicateWithFormat:@”name==’这是第一只Dog’ AND age ==11”];<br>for(Dog </em> d in dogArr)<br>{<br>if([predicate evaluateWithObject:d])<br>{<br>NSLog(d.name);<br>}<br>}</p>
+<p>以上的代码打印出来的结果就是 这是第一只Dog</p>
+<h4 id="NSPredicate筛选一个对象逻辑还是很清晰的，不过这里比较麻烦的就是-还有一个循环，这里我们会发现数组提供了一个方法可以更方便的检索数组对象"><a href="#NSPredicate筛选一个对象逻辑还是很清晰的，不过这里比较麻烦的就是-还有一个循环，这里我们会发现数组提供了一个方法可以更方便的检索数组对象" class="headerlink" title="NSPredicate筛选一个对象逻辑还是很清晰的，不过这里比较麻烦的就是 还有一个循环，这里我们会发现数组提供了一个方法可以更方便的检索数组对象"></a>NSPredicate筛选一个对象逻辑还是很清晰的，不过这里比较麻烦的就是 还有一个循环，这里我们会发现数组提供了一个方法可以更方便的检索数组对象</h4><p>直接筛选出一个符合谓词的新数组。</p>
+<p>NSPredicate <em>pre = [NSPredicate predicateWithFormat:@”age &gt;11”];<br>NSMutableArray </em>arrayPre=[dogArr filteredArrayUsingPredicate: pre];</p>
+<p>arrayPre里面的对象就会是 除了dog1之外的所有的dog。（至于为什么看我的条件…）</p>
+<h4 id="看到这里发现NSPredicate-可以用于自定义的实体的检索、筛选，那如果用于-NSString，NSInteger，bool呢？那我们再看一段代码吧"><a href="#看到这里发现NSPredicate-可以用于自定义的实体的检索、筛选，那如果用于-NSString，NSInteger，bool呢？那我们再看一段代码吧" class="headerlink" title="看到这里发现NSPredicate 可以用于自定义的实体的检索、筛选，那如果用于 NSString，NSInteger，bool呢？那我们再看一段代码吧"></a>看到这里发现NSPredicate 可以用于自定义的实体的检索、筛选，那如果用于 NSString，NSInteger，bool呢？那我们再看一段代码吧</h4><p>NSArray <em>arrays=[NSArray arrayWithObjects: @”Apple”, @”Google”, @”MircoSoft”, nil];<br>NSPredicate </em>pre2 = [NSPredicate predicateWithFormat:@”SELF==’Apple’”];</p>
+<p>上面这段代码是匹配字符串的时候 NSPredicate 需要如何声明</p>
+<h1 id="使用NSPredicate在两个数组之间进行差异筛选"><a href="#使用NSPredicate在两个数组之间进行差异筛选" class="headerlink" title="使用NSPredicate在两个数组之间进行差异筛选"></a>使用NSPredicate在两个数组之间进行差异筛选</h1><p>NSArray<em> array = @[@”aa”,@”bb”];<br>NSArray</em> array2 = @[@”aa”,@”bb”,@”cc”,@”dd”];<br>NSPredicate<em> thePredicate = [NSPredicate predicateWithFormat:@”NOT(SELF in %@)”,array];<br>NSArray</em> arr3 = [array2 filteredArrayUsingPredicate:thePredicate];<br>NSLog(@”%@”,arr3);<br>上面的代码输出结果 arr3={@”cc” ,@”dd”}<br>这样大家就很容易理解了<br>SELF在前面有介绍过 可以往回翻阅一下</p>
+<h1 id="如何使用正则筛选一个数组"><a href="#如何使用正则筛选一个数组" class="headerlink" title="如何使用正则筛选一个数组"></a>如何使用正则筛选一个数组</h1><p>NSString <em>regex = @”^A.+e$”;//以A 开头，以e 结尾的字符。<br>NSPredicate </em>pre= [NSPredicate predicateWithFormat:@”SELF MATCHES %@”, regex];<br>if([pre evaluateWithObject: @”Apple”]){<br>printf(“YES\n”);<br>}else{<br>printf(“NO\n”);<br>}</p>
+<h1 id="关于NSPredicate的其他说明和注意事项，以及技巧"><a href="#关于NSPredicate的其他说明和注意事项，以及技巧" class="headerlink" title="关于NSPredicate的其他说明和注意事项，以及技巧"></a>关于NSPredicate的其他说明和注意事项，以及技巧</h1><ol>
+<li>动态属性名<h2 id="假如你的代码如下"><a href="#假如你的代码如下" class="headerlink" title="假如你的代码如下"></a>假如你的代码如下</h2></li>
+</ol>
+<p>NSPredicate *p = [NSPredicate predicateWithFormat:@”name = %@”, @”name1”]; </p>
+<p>显然代码没有任何问题，但是这个不是最好的写法我建议如下写法：</p>
+<p>NSPredicate <em>preTemplate = [NSPredicate predicateWithFormat:@”name==$NAME”];<br>NSDictionary </em>dic=[NSDictionary dictionaryWithObjectsAndKeys:<br>@”name1”, @”NAME”,nil];<br>NSPredicate *pre=[preTemplate predicateWithSubstitutionVariables: dic];</p>
+<p>这样看上去可能会让代码逻辑更清晰。</p>
+<h2 id="当过滤条件字段都是动态的时候"><a href="#当过滤条件字段都是动态的时候" class="headerlink" title="当过滤条件字段都是动态的时候"></a>当过滤条件字段都是动态的时候</h2><p>NSString <em>key = @”name”;<br>NSString </em>value = @”name1”;<br>NSPredicate *p = [NSPredicate predicateWithFormat:@”%@ = %@”, key, value];</p>
+<p>然后当你执行到第三行的时候代码就会报错！<br>逻辑上没错误啊！！！为什么会出错呢？<br>NSPredicate要自动添加引号，所以最后得到的格式应该是@”‘name’ = ‘name1’”。明显不对。要做的就是:</p>
+<p>NSPredicate *p = [NSPredicate predicateWithFormat:@”%K = %@”, key, value]; </p>
+<p>#总结<br>NSPredicate 的简单的使用就介绍到这里，这里有些都是从网络上其他人的额博客转过来的内容，我自己加以修改和一些自己的理解。希望可以帮到大家。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/22/3/" rel="next" title="【iOS开发技术】对象关联(objc_setAssociatedObject、objc_getAssociatedObject、objc_removeAssociatedObjects）">
+                <i class="fa fa-chevron-left"></i> 【iOS开发技术】对象关联(objc_setAssociatedObject、objc_getAssociatedObject、objc_removeAssociatedObjects）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/22/5/" rel="prev" title="【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa">
+                【iOS开发技术】企业级证书打包，自动打包，脚本打包，打包ipa <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/22/4/"
+           data-title="【iOS开发技术】NSPredicate谓词的用法 数组过滤" data-url="http://iloxe.com/2016/08/22/4/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://loxe-gravatar.qiniudn.com/avatar/55a42346198de4bb76f606b9bf4e66c2"
+               alt="小饼" />
+          <p class="site-author-name" itemprop="name">小饼</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Loxe" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2272928710" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lvhuan.me/" title="菖蒲" target="_blank">菖蒲</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hijimo.com/" title="寂寞家" target="_blank">寂寞家</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NSPredicate是什么"><span class="nav-number">1.</span> <span class="nav-text">NSPredicate是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NSPredicate的创建"><span class="nav-number">1.1.</span> <span class="nav-text">NSPredicate的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NSPredicate中主要的几种运算方式"><span class="nav-number">1.1.1.</span> <span class="nav-text">NSPredicate中主要的几种运算方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何使用NSPredicate对一个自定义实体进行筛选"><span class="nav-number">2.</span> <span class="nav-text">如何使用NSPredicate对一个自定义实体进行筛选</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#建立一个实体类-Dog"><span class="nav-number">2.1.</span> <span class="nav-text">建立一个实体类 Dog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用NSPredicate的筛选"><span class="nav-number">2.2.</span> <span class="nav-text">使用NSPredicate的筛选</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#具体使用的代码"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">具体使用的代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSPredicate筛选一个对象逻辑还是很清晰的，不过这里比较麻烦的就是-还有一个循环，这里我们会发现数组提供了一个方法可以更方便的检索数组对象"><span class="nav-number">2.2.0.2.</span> <span class="nav-text">NSPredicate筛选一个对象逻辑还是很清晰的，不过这里比较麻烦的就是 还有一个循环，这里我们会发现数组提供了一个方法可以更方便的检索数组对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#看到这里发现NSPredicate-可以用于自定义的实体的检索、筛选，那如果用于-NSString，NSInteger，bool呢？那我们再看一段代码吧"><span class="nav-number">2.2.0.3.</span> <span class="nav-text">看到这里发现NSPredicate 可以用于自定义的实体的检索、筛选，那如果用于 NSString，NSInteger，bool呢？那我们再看一段代码吧</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用NSPredicate在两个数组之间进行差异筛选"><span class="nav-number">3.</span> <span class="nav-text">使用NSPredicate在两个数组之间进行差异筛选</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何使用正则筛选一个数组"><span class="nav-number">4.</span> <span class="nav-text">如何使用正则筛选一个数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于NSPredicate的其他说明和注意事项，以及技巧"><span class="nav-number">5.</span> <span class="nav-text">关于NSPredicate的其他说明和注意事项，以及技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#假如你的代码如下"><span class="nav-number">5.1.</span> <span class="nav-text">假如你的代码如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#当过滤条件字段都是动态的时候"><span class="nav-number">5.2.</span> <span class="nav-text">当过滤条件字段都是动态的时候</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小饼</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Loxe"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("kIIO80X8ngRciqBlih78FI6g-gzGzoHsz", "7Hnsei817eL3UF29vPDOSknK");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
